@@ -1,0 +1,8 @@
+{
+  "short_name": "Calculator",
+  "name": "React Calculator",
+  "icons": [ ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "transparent"
+}
