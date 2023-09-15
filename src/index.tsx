@@ -7,6 +7,8 @@ import {ThemeProvider} from "@mui/material";
 import {theme} from "./styles/theme";
 import {initReactI18next} from "react-i18next";
 import i18n from "i18next";
+import {Provider} from "react-redux";
+import store from "./modules/store/store";
 
 const rootElement = document.getElementById('react-calculator') as HTMLElement
 const root = ReactDOM.createRoot(rootElement)
@@ -116,9 +118,11 @@ init(rootElement?.dataset?.lang ?? 'en')
 
 root.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <Calculator/>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <Calculator/>
+            </ThemeProvider>
+        </Provider>
     </React.StrictMode>
 );
 

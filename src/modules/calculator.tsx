@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/calculator.scss';
 import CountryInput, {Country} from './country-input';
-import {useCookies} from "react-cookie";
 import {getDeliveryMethods, getToken} from "./api";
 import WeightInput from "./weight-input";
 import DeliveryMethodsList from "./delivery-methods-list";
 import {Box, CircularProgress} from "@mui/material";
 import {t} from "i18next";
+import {useDispatch, useSelector} from "react-redux";
+import { setToken} from "./store/userReducer";
 
 function Calculator() {
 
-    const [cookie, setCookie, removeCookie] = useCookies(["token"]);
+    const dispatch = useDispatch();
+    const token = useSelector((state: any) => state.user.accessToken);
+
     const [country, setCountry] = useState<Country | null>(null);
     const [weight, setWeight] = useState<string | null>("");
     const [weightUnit, setWeightUnit] = useState<string | null>('kg');
@@ -20,35 +23,35 @@ function Calculator() {
     const [sort, setSort] = useState(false)
     const [isNothingFound, setIsNothingFound] = useState(false)
 
+    const handleSubmit = (token: any) => {
 
-    const handleSubmit = () => {
+        console.log(token)
         setIsNothingFound(false)
         setIsLoading(true)
-        getDeliveryMethods(cookie?.token, country?.countryCode ?? "").then((response) => {
+        getDeliveryMethods(token, country?.countryCode ?? "").then((response) => {
             if (response?.data?.length === 0) {
                 setIsNothingFound(true)
             }
             setDeliveryMethods(response?.data)
         }).catch((error) => {
             if (error?.response?.status === 401) {
-                removeCookie('token')
+                dispatch(setToken(null))
             }
         })
             .finally(() => setIsLoading(false))
     }
 
     useEffect(() => {
-        removeCookie('token')
+        dispatch(setToken(null))
     }, [])
 
     useEffect(() => {
-
-        if (!cookie?.token)
+        if (!token)
             getToken().then((response) => {
-                setCookie('token', [response?.data?.['token_type'], response?.data?.['access_token']].join(' '))
+                dispatch(setToken([response?.data?.['token_type'], response?.data?.['access_token']].join(' ')))
             }).catch((error) => console.log(error))
 
-    }, [cookie?.token, setCookie])
+    }, [token])
 
     useEffect(() => {
         setDeliveryMethods([])
@@ -75,7 +78,7 @@ function Calculator() {
                 </div>
                 <div>
                     <button className="w-btn us-btn-style_1" style={{minWidth: "198px", height: '48px'}}
-                            onClick={handleSubmit} disabled={isLoading}>
+                            onClick={() => handleSubmit(token)} disabled={isLoading}>
                         <span className="w-btn-label"
                               style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{isLoading ?
                             <CircularProgress sx={{height: '20px', width: '20px'}}

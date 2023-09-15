@@ -3,6 +3,8 @@ import {Autocomplete, Box, CircularProgress, TextField} from "@mui/material";
 import {getCountries} from "./api";
 import {useCookies} from "react-cookie";
 import {t} from "i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {setToken} from "./store/userReducer";
 
 export interface Country {
     countryCode: string;
@@ -16,10 +18,12 @@ export interface CountryInputProps {
 
 export default function CountryInput({country, setCountry}: CountryInputProps) {
 
+    const dispatch = useDispatch();
+    const token = useSelector((state: any) => state.user.accessToken);
+
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState<Country[]>([]);
     const loading = open && options.length === 0;
-    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
     useEffect(() => {
         let active = true;
@@ -30,7 +34,7 @@ export default function CountryInput({country, setCountry}: CountryInputProps) {
 
 
         if (active) {
-            getCountries(cookies?.token).then((response: any) => {
+            getCountries(token).then((response: any) => {
                 const countries = response?.data as Country[] ?? []
 
                 setOptions([...countries].sort((a, b) => {
@@ -44,7 +48,7 @@ export default function CountryInput({country, setCountry}: CountryInputProps) {
                 }))
             }).catch((error) => {
                 if (error?.response?.status === 401)
-                    removeCookie('token')
+                    setToken(null)
                 console.log(error)
             })
         }
@@ -52,7 +56,7 @@ export default function CountryInput({country, setCountry}: CountryInputProps) {
         return () => {
             active = false;
         };
-    }, [cookies, loading]);
+    }, [token, loading]);
 
     return (
         <Autocomplete

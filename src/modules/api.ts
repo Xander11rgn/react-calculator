@@ -2,7 +2,8 @@ import axios from "axios";
 
 const api = axios.create({
     //baseURL: 'https://portal.trtexpress.com/api/',
-    baseURL: 'https://localhost:5001/api/',
+    baseURL: 'https://portal-dev.trtexpress.com/api/',
+    //baseURL: 'https://localhost:5001/api/',
     headers: {"Accept": "*/*", 'Content-Type': 'application/json'},
     timeout: 10000,
 });
@@ -24,9 +25,11 @@ export const getCountries = (token: string) => {
 }
 
 export const getDeliveryMethods = (token: string, countryCode: string) => {
+    console.log(token)
     api.defaults.timeout = 15000;
     api.defaults.headers.common['Authorization'] = token
-    return api.get(`organizations/1/deliveryMethods/country/${countryCode}/getDeliveryMethods`)
+    return api.post(`organizations/1/deliveryMethods/country/${countryCode}/getDeliveryMethods`,
+        {isDangerousGoods: false})
 }
 
 
