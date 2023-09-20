@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    //baseURL: 'https://portal.trtexpress.com/api/',
-    baseURL: 'https://portal-dev.trtexpress.com/api/',
+    baseURL: 'https://portal.trtexpress.com/api/',
+    //baseURL: 'https://portal-dev.trtexpress.com/api/',
     //baseURL: 'https://localhost:5001/api/',
     headers: {"Accept": "*/*", 'Content-Type': 'application/json'},
     timeout: 10000,

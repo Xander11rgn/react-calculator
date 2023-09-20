@@ -42,6 +42,7 @@ const init = (lang: string) => {
                                 description2: "Please select another destination country from the list above."
                             },
                             days: 'days',
+                            from: 'from',
                             upto: 'up to',
                             for: 'for'
                         }
@@ -67,6 +68,7 @@ const init = (lang: string) => {
                                 description2: "Пожалуйста, выберите в списке выше другую страну назначения."
                             },
                             days: 'дней',
+                            from: 'от',
                             upto: 'до',
                             for: 'за'
                         }
@@ -92,6 +94,7 @@ const init = (lang: string) => {
                                 description2: "Будь ласка, виберіть у списку вище іншу країну призначення."
                             },
                             days: 'днів',
+                            from: 'від',
                             upto: 'до',
                             for: 'за'
                         }

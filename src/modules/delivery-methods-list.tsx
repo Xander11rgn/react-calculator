@@ -134,10 +134,12 @@ export default function DeliveryMethodsList({
                     <div
                         className={'delivery-method-method-rate'}
                     >
-                        <div>{deliveryMethod?.modeOfTransportation?.customValues?.["service_description_" + i18n.language ?? 'en']}
+                        <div>{deliveryMethod?.customValues?.["service_description_" + i18n.language ?? 'en']}
                             {' - '}
-                            {t('deliveryMethods.upto')}
-                            {' '}
+
+                            {t('deliveryMethods.from') }{' '}
+                            {deliveryMethod?.transitDaysMin}
+                            {' '}{t('deliveryMethods.upto')}{' '}
                             {deliveryMethod?.transitDaysMax}
                             {' '}
                             {t('deliveryMethods.days')}
