@@ -31,18 +31,26 @@ export default function DeliveryMethodsList({ deliveryMethods: providedDeliveryM
     const renderCarrier = (carrier: any, isNotPickupLocationRate: any) => {
         const carrierName = carrier?.name;
         if (!isNotPickupLocationRate) {
-            if (carrierName && carrierName.includes("Nova") && (carrierName.includes("Poshta") || carrierName.includes("Pochta")))
+            if (carrierName && carrierName.includes("Nova") && (carrierName.includes("Poshta") || carrierName.includes("Pochta"))) {
                 return (
                     <div className={"icon-box"}>
                         <img src={"https://trtshopping.com/wp-content/uploads/2023/06/carrier-nova-poshta.svg"} alt={""} />
                     </div>
                 );
-            else if (carrierName && carrierName.includes("Ukr") && (carrierName.includes("Poshta") || carrierName.includes("Pochta")))
+            } else if (carrierName && carrierName.includes("Ukr") && (carrierName.includes("Poshta") || carrierName.includes("Pochta"))) {
                 return (
                     <div className={"icon-box"}>
                         <img src={"https://trtshopping.com/wp-content/uploads/2023/06/carrier-ukrposhta.svg"} alt={""} />
                     </div>
                 );
+            } else {
+                return (
+                    <div className={"icon-box"}>
+                        <img src={"https://trtshopping.com/wp-content/uploads/2023/07/carrier.svg"} width={30} alt={""} />
+                    </div>
+                );
+            }
+        } else {
             return (
                 <div className={"icon-box"}>
                     <img src={"https://trtshopping.com/wp-content/uploads/2023/07/carrier.svg"} width={30} alt={""} />
@@ -143,7 +151,6 @@ export default function DeliveryMethodsList({ deliveryMethods: providedDeliveryM
                                     {renderTransportationMethod(deliveryMethod?.modeOfTransportation?.transportationMethod)}
                                     {renderCarrier(deliveryMethod?.carrier, isNotPickupLocationRate)}
                                 </div>
-                                {!isNotPickupLocationRate && <div className={"carrier-name"}>{deliveryMethod?.carrier?.name}</div>}
                                 <Divider orientation="vertical" variant="middle" flexItem />
                             </div>
                             <div className={"delivery-method-method-rate"}>
