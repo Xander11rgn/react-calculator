@@ -25,7 +25,6 @@ export const getCountries = (token: string) => {
 }
 
 export const getDeliveryMethods = (token: string, countryCode: string) => {
-    console.log(token)
     api.defaults.timeout = 15000;
     api.defaults.headers.common['Authorization'] = token
     return api.post(`organizations/1/deliveryMethods/country/${countryCode}/getDeliveryMethods`,
